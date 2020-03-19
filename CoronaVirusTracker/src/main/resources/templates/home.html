@@ -14,22 +14,27 @@
     <p>This application lists current number of cases reported across the globe</p>
     
     <div class="jumbotron">
-	  <h1 class="display-4" th:text="${totalReportedCases}">Hello, world!</h1>
+	  <h1 class="display-4" th:text="${totalReportedCases}"></h1>
 	  <p class="lead">Total cases reported as of today</p>
+	  <hr class = "my-4">
+	  <h1 class="display-5" th:text="${newReportedCases}"></h1>
+	  <p class="lead">Total NEW cases reported since previous day</p>
+	  
+	  
 	</div>
     
    
-	    <table>
+	    <table class="table">
 	      <tr>
+	      	<th>COUNTRY</th>
 	        <th>STATE</th>
-	        <th>COUNTRY</th>
 	        <th>TODAY reported</th>
 	        <th>CHANGES since last day</th>
 	        
 	      </tr>
-	      <tr th:each="locationStat : ${locationStats}">
-	        <td th:text="${locationStat.state}"></td>
+	      <tr th:each="locationStat : ${locationStats}">	      
 	        <td th:text="${locationStat.country}"></td>
+	        <td th:text="${locationStat.state}"></td>
 	        <td th:text="${locationStat.latestTotalCases}">0</td>
 	        <td th:text="${locationStat.diffFromPrevDay}">0</td>
 	        
