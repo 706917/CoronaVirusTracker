@@ -10,9 +10,15 @@ public class LocationStats {
 	private String state; // name of state or province
 	private String country; // name of country
 	private int latestTotalCases; // the amount of confirmed cases in the latest date
+	private int diffFromPrevDay; // the delta of cases today and yesterday
 	
 	
-	
+	public int getDiffFromPrevDay() {
+		return diffFromPrevDay;
+	}
+	public void setDiffFromPrevDay(int diffFromPrevDay) {
+		this.diffFromPrevDay = diffFromPrevDay;
+	}
 	public String getState() {
 		return state;
 	}
