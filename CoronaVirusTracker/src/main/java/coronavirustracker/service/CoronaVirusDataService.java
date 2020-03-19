@@ -28,7 +28,11 @@ public class CoronaVirusDataService {
 	
 	// An instance of LocationStats class-model to keep fetched data in memory
 	private List<LocationStats> allStats = new ArrayList<>();
-	
+	//Getter for alStats
+	public List<LocationStats> getAllStats() {
+		return allStats;
+	}
+
 	// A method to send  http request and get response data
 	@PostConstruct // The annotation that tells Spring to execute this method when application starts
 	@Scheduled(cron = "* * 1 * * *") // The annotation to tell Spring to run this method in specified schedule
@@ -55,17 +59,22 @@ public class CoronaVirusDataService {
 		
 		// Create a new instance of Iterable class and build it from our StringReader object parsed with CSVFormat library
 		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
-		// Loop through the iterable records and headers values for each column in that csv file
+		// Loop through the each row in records and get values for each column in that csv file
 		for (CSVRecord record : records) {
 			// Create a new instance of LocationStats to accommodate data
 			LocationStats locationStat = new LocationStats();
 		    locationStat.setState(record.get("Province/State"));
 		    locationStat.setCountry(record.get("Country/Region"));
-		    locationStat.setLatestTotalCases(Integer.parseInt(record.get(record.size()-1)));
 		    
-		    // Print the result
-		    System.out.println(locationStat);
-		    // Populate new data into the temporary array
+		    // Take the last record inside row, convert in from String to Integer and assign the value to the variable
+		    int latestCases = Integer.parseInt(record.get(record.size()-1));
+		    // Take the previous record inside row, convert in from String to Integer and assign the value to the variable
+		    int prevDayCases = Integer.parseInt(record.get(record.size()-2));
+		    
+		    locationStat.setLatestTotalCases(latestCases);
+		    locationStat.setDiffFromPrevDay(latestCases - prevDayCases);
+
+		    // Add separated location data into the common table
 		    newStats.add(locationStat);
 		    }
 		// Add fresh data to the storage
