@@ -32,9 +32,12 @@ public class HomeController {
 		// map it to Integer, and sum it up
 		int totalReportedCases = allStat.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
 		
+		int newReportedCases = allStat.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
+		
 		// Add the desired attributes to the model to provide it's rendering into html
 		model.addAttribute("locationStats", allStat);
 		model.addAttribute("totalReportedCases", totalReportedCases);
+		model.addAttribute("newReportedCases", newReportedCases);
 		return "home";
 	}
 
